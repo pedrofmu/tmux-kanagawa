@@ -4,35 +4,40 @@ export LC_ALL=en_US.UTF-8
 
 HOSTS="google.com github.com example.com"
 
-get_ssid()
+get_ip()
 {
   # Check OS
   case $(uname -s) in
     Linux)
-      SSID=$(iw dev | sed -nr 's/^\t\tssid (.*)/\1/p')
-      if [ -n "$SSID" ]; then
-        printf '%s' "$SSID"
+      # Obtenemos la interfaz de red conectada (sea WiFi o Ethernet)
+      interface=$(ip route | grep default | awk '{print $5}')
+      # Obtenemos la IP de esa interfaz
+      IP=$(ip -4 addr show "$interface" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+      if [ -n "$IP" ]; then
+        printf '%s' "$IP"
       else
-        echo 'Ethernet'
+        echo 'No IP found'
       fi
       ;;
 
     Darwin)
-      if networksetup -getairportnetwork en0 | cut -d ':' -f 2 | sed 's/^[[:blank:]]*//g' &> /dev/null; then
-        echo "$(networksetup -getairportnetwork en0 | cut -d ':' -f 2)" | sed 's/^[[:blank:]]*//g'
+      # Para macOS usamos ifconfig para obtener la IP de la interfaz activa
+      IP=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}')
+      if [ -n "$IP" ]; then
+        printf '%s' "$IP"
       else
-        echo 'Ethernet'
+        echo 'No IP found'
       fi
       ;;
 
     CYGWIN*|MINGW32*|MSYS*|MINGW*)
-      # leaving empty - TODO - windows compatability
+      # Compatibilidad con Windows (por ejemplo, usando PowerShell o ipconfig)
+      # Aquí podrías agregar compatibilidad con Windows si es necesario
       ;;
 
     *)
       ;;
   esac
-
 }
 
 main()
@@ -40,7 +45,7 @@ main()
   network="Offline"
   for host in $HOSTS; do
     if ping -q -c 1 -W 1 $host &>/dev/null; then
-      network="$(get_ssid)"
+      network="$(get_ip)"
       break
     fi
   done
