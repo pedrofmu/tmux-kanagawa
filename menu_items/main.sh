@@ -19,9 +19,9 @@ render() {
   tmux display-menu -T "#[align=centre fg=green]Main" -x R -y P \
     "" \
     "" \
-    "Colors" 1 "run -b 'source #{@kanagawa-root}/menu_items/colors.sh" \
-    "Plugins" 2 "run -b 'source #{@kanagawa-root}/menu_items/plugins.sh" \
-    "Options" 3 "run -b 'source #{@kanagawa-root}/menu_items/options.sh" \
+    "Colors" 1 "run -b 'source #{KANAGAWA_ROOT}/menu_items/colors.sh" \
+    "Plugins" 2 "run -b 'source #{KANAGAWA_ROOT}/menu_items/plugins.sh" \
+    "Options" 3 "run -b 'source #{KANAGAWA_ROOT}/menu_items/options.sh" \
     "" \
     "Close menu" q ""
 }

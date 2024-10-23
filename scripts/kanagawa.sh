@@ -8,7 +8,7 @@ source $current_dir/colors.sh
 source $current_dir/theme.sh
 
 main() {
-  tmux bind-key -r T run-shell "#{@kanagawa-root}/menu_items/main.sh"
+  tmux bind-key -r T run-shell "#{KANAGAWA_ROOT}/menu_items/main.sh"
 
   # set theme
   theme=$(get_tmux_option "@kanagawa-theme" "")
