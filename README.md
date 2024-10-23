@@ -2,7 +2,10 @@
 
 [Kanagawa](https://github.com/rebelot/kanagawa.nvim/tree/master) theme for TMUX with silent colors.
 
-Forked from [dracula/tmux](https://github.com/dracula/tmux).
+I made a fork from:
+ [Nybox/tmux-kanagawa](https://github.com/Nybkox/tmux-kanagawa).
+
+Because I wanted to add a plugin to add my private ip address in the bottom bar.
 
 ![Screenshot](./screenshot.png)
 
